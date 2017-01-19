@@ -1,37 +1,26 @@
 'use strict';
-let _ = require('lodash');
-let original = 600851475143; 
 
-// sieve of erasthenes
-function simpleSieve(n) {
-  let a = new Array(n).fill(1);
-  a[1] = 0;
-  var p = 2;
-  while (p*p <= n) {
-    var j = p*p;
-    a[p] = 0;
-    while (j <= n) {
-      a[j] = 0;
-      j = j + p;
+// NOTE: found this solution here: // https://github.com/necolas/project-euler/blob/master/003/003.js
+// ADD'L NOTE: I mistakenly tried running sieves to find all prime factors, and ran into memory limits
+function findMaxPrime(num) {
+  // starting index (first prime)
+  var i = 2;
+  var count = 0;
+  while (num > i) {
+    if (num % i === 0) {
+      num = num / i;
+      console.log('new num', num);
+      count++;
     }
-    do { 
-      p++; 
-    } while (a[p] === 0);
+    i++;
   }
-  return _(a)
-    .map((value, index) => {
-      if (value !== 0) {
-        return index;
-      }
-    })
-    .filter((value) => value !== undefined)
-    .value();
+  console.log('number of divisions:', count);
+
+  console.log(i);
+  return i;
 }
-
-var number = 101;
-console.log('Finding largest prime factor for:', number);
-console.time('run-sieve');
-var primes = simpleSieve(number);
-console.log(primes);
-console.timeEnd('run-sieve');
-
+console.time('find-max-prime');
+let original = 600851475143; 
+console.log('Finding largest prime factor for:', original);
+findMaxPrime(original);
+console.timeEnd('find-max-prime');
